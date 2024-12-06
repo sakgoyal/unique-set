@@ -1,8 +1,7 @@
-import { BloomSet, UniqueSet } from "../dist/index.mjs";
-import { performance } from "perf_hooks";
-import { describe, it, expect, test } from 'vitest';
+import { BloomSet, UniqueSet } from "../index.ts";
+import { expect } from "jsr:@std/expect";
 
-function generateDataset(size) {
+function generateDataset(size : number) {
   const data = [];
   const limit = size * 2;
   let expectedDupes = 0;
@@ -32,7 +31,7 @@ function generateDataset(size) {
   return { data, expectedDupes, stringDupes };
 }
 
-describe("Performance Benchmarks", () => {
+Deno.test("Performance Benchmarks", async (t) => {
   const datasetSizes = [400, 1000, 20000];
   const iterations = 1;
   for (const datasetSize of datasetSizes) {
@@ -42,9 +41,9 @@ describe("Performance Benchmarks", () => {
     const expectedSize = expectedNativeSize - expectedDupes;
 
     let uniqueTiming = 0;
-    it("UniqueSet vs native Set: " + String(datasetSize), () => {
+    await t.step("UniqueSet vs native Set: " + String(datasetSize), () => {
       console.log(
-        "Performance test: UniqueSet vs native Set" + String(datasetSize)
+        "Performance test: UniqueSet vs native Set" + String(datasetSize),
       );
 
       const unique = new UniqueSet();
@@ -59,7 +58,7 @@ describe("Performance Benchmarks", () => {
       performance.measure(
         "unique" + String(datasetSize),
         "unique-start" + String(datasetSize),
-        "unique-end" + String(datasetSize)
+        "unique-end" + String(datasetSize),
       );
 
       // Measure native Set
@@ -71,15 +70,15 @@ describe("Performance Benchmarks", () => {
       performance.measure(
         "native" + String(datasetSize),
         "native-start" + String(datasetSize),
-        "native-end" + String(datasetSize)
+        "native-end" + String(datasetSize),
       );
 
       const uniqueTime = performance.getEntriesByName(
-        "unique" + String(datasetSize)
-      )[0].duration;
+        "unique" + String(datasetSize),
+      )[0]!.duration;
       const nativeTime = performance.getEntriesByName(
-        "native" + String(datasetSize)
-      )[0].duration;
+        "native" + String(datasetSize),
+      )[0]!.duration;
 
       console.log(`UniqueSet execution time: ${uniqueTime.toFixed(2)} ms`);
       console.log(`Native Set execution time: ${nativeTime.toFixed(2)} ms`);
@@ -89,21 +88,21 @@ describe("Performance Benchmarks", () => {
 
       console.log(
         "UniqueSet size: " + unique.size,
-        "Expected size: " + expectedSize
+        "Expected size: " + expectedSize,
       );
       expect(unique.size).toBe(expectedSize);
 
       console.log(
         "Native Set size: " + native.size,
-        "Expected size: " + expectedNativeSize
+        "Expected size: " + expectedNativeSize,
       );
       // Native Set will have duplicates
       expect(native.size).toBe(expectedNativeSize);
     });
 
-    it("BloomSet vs native Set: " + String(datasetSize), () => {
+    await t.step("BloomSet vs native Set: " + String(datasetSize), () => {
       console.log(
-        "Performance test: BloomSet vs native Set" + String(datasetSize)
+        "Performance test: BloomSet vs native Set" + String(datasetSize),
       );
 
       const bloom = new BloomSet();
@@ -118,7 +117,7 @@ describe("Performance Benchmarks", () => {
       performance.measure(
         "bloom" + String(datasetSize),
         "bloom-start" + String(datasetSize),
-        "bloom-end" + String(datasetSize)
+        "bloom-end" + String(datasetSize),
       );
 
       // Measure native Set
@@ -130,15 +129,15 @@ describe("Performance Benchmarks", () => {
       performance.measure(
         "native" + String(datasetSize),
         "native-start" + String(datasetSize),
-        "native-end" + String(datasetSize)
+        "native-end" + String(datasetSize),
       );
 
       const bloomTime = performance.getEntriesByName(
-        "bloom" + String(datasetSize)
-      )[0].duration;
+        "bloom" + String(datasetSize),
+      )[0]!.duration;
       const nativeTime = performance.getEntriesByName(
-        "native" + String(datasetSize)
-      )[1].duration;
+        "native" + String(datasetSize),
+      )[1]!.duration;
 
       console.log(`BloomSet execution time: ${bloomTime.toFixed(2)} ms`);
       console.log(`Native Set execution time: ${nativeTime.toFixed(2)} ms`);
@@ -148,13 +147,13 @@ describe("Performance Benchmarks", () => {
 
       console.log(
         "BloomSet size: " + bloom.size,
-        "Expected size: " + expectedSize
+        "Expected size: " + expectedSize,
       );
       expect(bloom.size).toBe(expectedSize);
 
       console.log(
         "Native Set size: " + native.size,
-        "Expected size: " + expectedNativeSize
+        "Expected size: " + expectedNativeSize,
       );
       // Native Set will have duplicates
       expect(native.size).toBe(expectedNativeSize);

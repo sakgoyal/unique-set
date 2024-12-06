@@ -2,10 +2,6 @@
 
 Extends the native `Set` class to deeply compare using [fast-deep-equal](https://www.npmjs.com/package/fast-deep-equal), with optional Bloom filter optimization.
 
-Supports ESM and CommonJS.
-
-WARNING: This version exports 2 classes instead of a single default class, breaking b/c with version 1.
-
 The extended methods iterate through the elements of the `UniqueSet` until equality is found. If no elements match, the entire `UniqueSet` would have been iterated. However fast `fast-deep-equal` is, calling it in a loop like this makes performance many, many times worse than the native `Set`. For datasets greater than a thousand elements, there is probably a better way to achieve what you're trying to do. Otherwise, `UniqueSet` is convenient.
 
 UPDATE: Version 2 ships with `BloomSet`, in which equality checks are optimized with a Bloom filter. This class is useful for larger datasets, performing about 3-10 times faster than `UniqueSet` for datasets greater than 1000 elements. Less than a few hundred (~400) elements, `UniqueSet` is faster. `BloomSet`'s probabilistic false positives are covered by a fallback to `fast-deep-equal`. BloomSet is still orders of magnitude slower than the native `Set`, but if deep equality is required, this is a decent option.
@@ -46,7 +42,7 @@ Default: 7
 
 Default Configuration:
 
-```js
+```ts
 const bloomSet = new BloomSet();
 bloomSet.add("example");
 console.log(bloomSet.has("example")); // true
@@ -56,7 +52,7 @@ Custom Configuration for Larger Datasets:
 
 Example 28,755,000 bit array size uses roughly 3.5 MB of memory, but this configuration is robust against datasets of something like 1M elements. The practicality of using BloomSet with that many elements is low, due to the performance hit of deep equality checks.
 
-```js
+```ts
 const bloomSet = new BloomSet([], { size: 28755000, hashCount: 20 });
 bloomSet.add("custom");
 console.log(bloomSet.has("custom")); // true
@@ -76,13 +72,13 @@ console.log(bloomSet.has("custom")); // true
 ## Installation
 
 ```cli
-npm install @sepiariver/unique-set
+deno add jsr:@sepiariver/unique-set
 ```
 
 ## Usage
 
-```js
-const { BloomSet, UniqueSet } = require('@sepiariver/unique-set');
+```ts
+import { BloomSet, UniqueSet } from "jsr:@sepiariver/unique-set";
 
 const data = [
   "string",
@@ -125,8 +121,8 @@ console.log(bloom2.size); // 6
 ## Testing
 
 1. Clone this repo
-2. `npm install`
-3. `npm run test`
+2. `deno install`
+3. `deno run tests`
 
 ## Contributing
 
