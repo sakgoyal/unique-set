@@ -122,12 +122,10 @@ export class BloomSet<T> extends Set<T> {
       if (Array.isArray(item)) {
         return `[${item.map(serialize).join(",")}]`;
       } else {
-        return `{${
-          Object.entries(item)
-            .sort(([a], [b]) => a.localeCompare(b))
-            .map(([k, v]) => `${k}:${serialize(v)}`)
-            .join(",")
-        }}`;
+        return `{${Object.entries(item)
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([k, v]) => `${k}:${serialize(v)}`)
+          .join(",")}}`;
       }
     }
 
