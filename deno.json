@@ -3,9 +3,6 @@
   "version": "2.0.1",
   "description": "Extends the native Set class to deeply compare using fast-deep-equal, with optional Bloom filter optimization. This version exports 2 classes instead of a default, breaking b/c with version 1.",
   "exports": "./index.ts",
-  "tasks": {
-    "tests": "deno test test/*"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sepiariver/unique-set.git"
@@ -25,7 +22,8 @@
   },
   "homepage": "https://github.com/sepiariver/unique-set#readme",
   "imports": {
-    "@std/assert": "jsr:@std/assert@1"
+    "@std/assert": "jsr:@std/assert@1",
+    "fast-deep-equal" : "npm:fast-deep-equal"
   },
   "compilerOptions": {
     "strict": true,

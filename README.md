@@ -129,7 +129,7 @@ console.log(bloom2.size); // 6
 
 1. Clone this repo
 2. `deno install`
-3. `deno run tests`
+3. `deno test`
 
 ## Contributing
 

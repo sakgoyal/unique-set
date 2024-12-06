@@ -1,4 +1,4 @@
-import equal from "npm:fast-deep-equal/es6/index.js";
+import equal from "fast-deep-equal/es6/index.js";
 
 /** A `Set` extension that ensures uniqueness of items using deep equality checks. */
 export class UniqueSet<T> extends Set<T> {

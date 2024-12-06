@@ -1,4 +1,5 @@
 import { BloomSet, UniqueSet } from "../index.ts";
+import { describe, it } from "jsr:@std/testing/bdd";
 import { expect } from "jsr:@std/expect";
 
 function generateDataset(size : number) {
@@ -31,7 +32,7 @@ function generateDataset(size : number) {
   return { data, expectedDupes, stringDupes };
 }
 
-Deno.test("Performance Benchmarks", async (t) => {
+describe("Performance Benchmarks", () => {
   const datasetSizes = [400, 1000, 20000];
   const iterations = 1;
   for (const datasetSize of datasetSizes) {
@@ -41,7 +42,7 @@ Deno.test("Performance Benchmarks", async (t) => {
     const expectedSize = expectedNativeSize - expectedDupes;
 
     let uniqueTiming = 0;
-    await t.step("UniqueSet vs native Set: " + String(datasetSize), () => {
+    it("UniqueSet vs native Set: " + String(datasetSize), () => {
       console.log(
         "Performance test: UniqueSet vs native Set" + String(datasetSize),
       );
@@ -100,7 +101,7 @@ Deno.test("Performance Benchmarks", async (t) => {
       expect(native.size).toBe(expectedNativeSize);
     });
 
-    await t.step("BloomSet vs native Set: " + String(datasetSize), () => {
+    it("BloomSet vs native Set: " + String(datasetSize), () => {
       console.log(
         "Performance test: BloomSet vs native Set" + String(datasetSize),
       );

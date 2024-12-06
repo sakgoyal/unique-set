@@ -1,4 +1,5 @@
 import { BloomSet, UniqueSet } from "../index.ts";
+import { describe, it } from "jsr:@std/testing/bdd";
 import { expect } from "jsr:@std/expect";
 
 const data = [
@@ -25,15 +26,15 @@ const expected = [
   NaN,
 ];
 
-Deno.test("UniqueSet", async (t) => {
-  await t.step("adds unique objects", () => {
+describe("UniqueSet", () => {
+  it("adds unique objects", () => {
     const unique = new UniqueSet();
     data.forEach((el) => unique.add(el));
     expect(Array.from(unique)).toEqual(expected);
     expect(unique.size).toBe(7);
   });
 
-  await t.step("complies with MDN reference", () => {
+  it("complies with MDN reference", () => {
     const mySet1 = new UniqueSet();
 
     mySet1.add(1);
@@ -61,7 +62,7 @@ Deno.test("UniqueSet", async (t) => {
     expect(mySet1.size).toBe(0);
   });
 
-  await t.step("works with the constructor", () => {
+  it("works with the constructor", () => {
     const unique = new UniqueSet(data);
     expect(Array.from(unique)).toEqual(expected);
     expect(unique.size).toBe(7);
@@ -70,7 +71,7 @@ Deno.test("UniqueSet", async (t) => {
     expect(standard.size).toBe(9); // Standard Set treats NaN and duplicates differently
   });
 
-  await t.step("handles edge cases", () => {
+  it("handles edge cases", () => {
     const edgeCaseSet = new UniqueSet();
 
     // Adding undefined
@@ -93,7 +94,7 @@ Deno.test("UniqueSet", async (t) => {
     expect(edgeCaseSet.has(fn)).toBeTruthy();
   });
 
-  await t.step("handles nested objects and arrays", () => {
+  it("handles nested objects and arrays", () => {
     const nested = new UniqueSet();
 
     nested.add({ a: { b: 1 } });
@@ -108,8 +109,8 @@ Deno.test("UniqueSet", async (t) => {
   });
 });
 
-Deno.test("BloomSet", async (t) => {
-  await t.step("adds unique objects", () => {
+describe("BloomSet", () => {
+  it("adds unique objects", () => {
     const unique = new BloomSet();
     data.forEach((el) => unique.add(el));
 
@@ -117,7 +118,7 @@ Deno.test("BloomSet", async (t) => {
     expect(unique.size).toBe(7);
   });
 
-  await t.step("complies with MDN reference", () => {
+  it("complies with MDN reference", () => {
     const mySet1 = new BloomSet();
 
     mySet1.add(1);
@@ -145,7 +146,7 @@ Deno.test("BloomSet", async (t) => {
     expect(mySet1.size).toBe(0);
   });
 
-  await t.step("works with the constructor", () => {
+  it("works with the constructor", () => {
     const unique = new BloomSet(data);
     expect(Array.from(unique)).toEqual(expected);
     expect(unique.size).toBe(7);
@@ -154,7 +155,7 @@ Deno.test("BloomSet", async (t) => {
     expect(standard.size).toBe(9); // Standard Set treats NaN and duplicates differently
   });
 
-  await t.step("handles edge cases", () => {
+  it("handles edge cases", () => {
     const edgeCaseSet = new BloomSet();
 
     // Adding undefined
@@ -177,7 +178,7 @@ Deno.test("BloomSet", async (t) => {
     expect(edgeCaseSet.has(fn)).toBeTruthy();
   });
 
-  await t.step("handles nested objects and arrays", () => {
+  it("handles nested objects and arrays", () => {
     const nested = new BloomSet();
 
     nested.add({ a: { b: 1 } });
